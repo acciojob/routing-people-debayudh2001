@@ -8,18 +8,20 @@ const App = () => {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/users')
+    fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
       .then(data => setUsers(data))
       .catch(err => console.log(err))
   }, [])
+
+  //console.log(users)
 
   return (
     <div>
       <h1>User List</h1>
       <ul>
         {users && users.map((user, ind) => {
-          return <li key={ind} style={{ marginBottom: "15px" }}><Link to={`/users/${user.id}`}>{user.name.firstname} {user.name.lastname}</Link></li>
+          return <li key={ind} style={{ marginBottom: "15px" }}><Link to={`/users/${user.id}`}>{user.name}</Link></li>
         })}
       </ul>
     </div>
