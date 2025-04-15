@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom/cjs/react-router-dom'
-import users from '../../data/users.json'
+//import users from '../../data/users.json'
 
 const User = () => {
-    const {id} = useParams()
+    const { id } = useParams()
     const [user, setUser] = useState({})
 
     useEffect(() => {
-        setUser(users.find(item => item.id === Number(id)))
+        fetch('https://fakestoreapi.com/users')
+            .then(response => response.json())
+            .then(data => setUser(data.find(item => item.id === Number(id))))
+            .catch(err => console.log(err))
     }, [id])
-    
+
     //console.log(user)
 
     return (
         <div>
-            <h2>User Details</h2>
-            <p><b>Name:</b> {user.name?.firstname} {user.name?.lastname}</p>
-            <p><b>Username:</b> {user.username}</p>
-            <p><b>Email:</b> {user.email}</p>
-            <p><b>Phone:</b> {user.phone}</p>
+            {Object.keys(user).length !== 0 ? (
+                <div>
+                    <h1>User Details</h1>
+                    <p><b>Name:</b> {user.name?.firstname} {user.name?.lastname}</p>
+                    <p><b>Username:</b> {user.username}</p>
+                    <p><b>Email:</b> {user.email}</p>
+                    <p><b>Phone:</b> {user.phone}</p>
+                </div>
+            ) : (
+                <p>Loading...</p>
+            )
+            }
         </div>
     )
 }
